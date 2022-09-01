@@ -6,39 +6,17 @@
 #
 # The number of nodes in the binary tree is in the range [1, 10^5].
 # Each node's value is between [-10^4, 10^4].
-
-
 import time
-import random
 import unittest
-from typing import List, Tuple, Optional
+from typing import List, Tuple
+from core.graphs import TreeNode, generate_binary_tree
 
 
-def timeblock(label):
-    start = time.perf_counter()
-    try:
-        yield
-    finally:
-        end = time.perf_counter()
-        print('{}:{}'.format(label, end - start))
-
-
-class TreeNode:
-    def __init__(self, val: int = 0, left: Optional['TreeNode'] = None, right: Optional['TreeNode'] = None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-    def __str__(self):
-        return f"TreeNode{{val: {self.val}, left:{self.left}, right:{self.right}}}"
+TREE_NODE_MIN_VALUE = -10 * 1000
 
 
 # Time complexity: O(N) as we visit every node only once.
 # Auxiliary Space: O(H) where H is the height of the tree. In the worst case, H would be N
-TREE_NODE_MIN_VALUE = -10 * 1000
-
-
-
 class Solution:
     def goodNodes(self, root: TreeNode, path_max_value: int = TREE_NODE_MIN_VALUE) -> int:  # -10k -
         if root is None: return 0
@@ -121,22 +99,8 @@ class TestSolution(unittest.TestCase):
                     solution.goodNodes(root), expected
                 )
 
-    @staticmethod
-    def _generate_binary_tree(nodes_number: int = 1000,
-                              min_val: int = -10000, max_val: int = 10000) -> Optional[TreeNode]:
-
-        if nodes_number <= 0:
-            return None
-
-        lef_nodes_number = random.randint(0, nodes_number // 2)
-        right_nodes_number = nodes_number - lef_nodes_number - 1
-
-        return TreeNode(random.randint(min_val, max_val),
-                        TestSolution._generate_binary_tree(lef_nodes_number, min_val, max_val),
-                        TestSolution._generate_binary_tree(right_nodes_number, min_val, max_val))
-
-    def test_benchmark(self):
-        big_tree = TestSolution._generate_binary_tree(10 * 1000)
+    def test_perfomance(self):
+        big_tree = generate_binary_tree(10 * 1000)
         good_nodes_numbers = None
 
         for solution_class in [StackDfsSolution, Solution, Solution2, Solution3]:
