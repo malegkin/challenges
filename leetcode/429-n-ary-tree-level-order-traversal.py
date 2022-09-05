@@ -7,8 +7,8 @@
 # The height of the n-ary tree is less than or equal to 1000
 # The total number of nodes is between [0, 10^4]
 
-from typing import List, Tuple, Deque
-from collections import deque
+from typing import List, Dict
+from collections import defaultdict
 
 
 class Node:
@@ -19,7 +19,7 @@ class Node:
 
 class Solution:
     """
-    BFS Solution
+    BreadthFirstSearch Solution
     Time Complexity: O(n)
     Auxiliary Space: O(n)
     """
@@ -35,5 +35,25 @@ class Solution:
 
         return out
 
+
+class DfsSolution:
+    """
+    DepthFirst Search Solution
+    Time Complexity: O(n)
+    Auxiliary Space: O(n)
+    """
+    def levelOrder(self, root: Node) -> List[List[int]]:
+        levels: Dict[int, List[int]] = defaultdict(list)
+
+        def dfs(node: Node, level: int = 0) -> None:
+            if node is None:
+                return
+
+            levels[level].append(node.val)
+            for children in node.children:
+                dfs(children, level+1)
+
+        dfs(root)
+        return list(levels.values())
 
 
