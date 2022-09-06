@@ -3,6 +3,7 @@
 # been removed.
 # A subtree of a node 'node' is 'node' plus every node that is a descendant of 'node'.
 
+import unittest
 from typing import Optional
 from core.graphs import TreeNode
 
@@ -27,3 +28,14 @@ class Solution:
             return node
 
         return dfs(root)
+
+
+class TestSolution(unittest.TestCase):
+    def test_solution(self):
+        for case, expected in [
+            [[1, None, 0, 0, 1], [1, None, 0, None, 1]],
+            [[1, 0, 1, 0, 0, 0, 1], [1, None, 1, None, 1]],
+            [[1, 1, 0, 1, 1, 0, 1, 0], [1, 1, 0, 1, 1, None, 1]]
+        ]:
+            solution = Solution()
+            self.assertListEqual(solution.pruneTree(TreeNode.list2graph(case)).graph2list(), expected)
