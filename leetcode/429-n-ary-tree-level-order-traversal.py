@@ -46,7 +46,7 @@ class DfsSolution:
         levels: Dict[int, List[int]] = defaultdict(list)
 
         def dfs(node: Node, level: int = 0) -> None:
-            if node is None:
+            if node:
                 return
 
             levels[level].append(node.val)
