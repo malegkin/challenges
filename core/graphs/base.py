@@ -1,3 +1,5 @@
+import sys
+import random
 import unittest
 from random import randint
 from typing import Optional, List
@@ -107,6 +109,7 @@ class TreeNode:
 
 def generate_binary_tree(nodes_number: int = 1000,
                          min_val: int = -10000, max_val: int = 10000) -> Optional[TreeNode]:
+    sys.setrecursionlimit(10000)
     if nodes_number <= 0:
         return None
 
@@ -116,6 +119,15 @@ def generate_binary_tree(nodes_number: int = 1000,
     return TreeNode(randint(min_val, max_val),
                     generate_binary_tree(lef_nodes_number, min_val, max_val),
                     generate_binary_tree(right_nodes_number, min_val, max_val))
+
+
+def generate_highest_binary_tree(nodes_number: int = 1000,
+                                 min_val: int = -10000, max_val: int = 10000) -> Optional[TreeNode]:
+    sys.setrecursionlimit(10000)
+    if nodes_number:
+        next_node = generate_highest_binary_tree(nodes_number - 1, min_val, max_val)
+        return TreeNode(randint(min_val, max_val),
+                        *((next_node, None) if random.choice([True, False]) else (None, next_node)))
 
 
 class TestGraph(unittest.TestCase):
