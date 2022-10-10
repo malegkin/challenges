@@ -58,16 +58,16 @@ class BfsSolution:
             return []
 
         out: List[List[int]] = []
-        stack: List[Tuple[TreeNode, List[int]]] = [(root, [root.val])]
+        queue: List[Tuple[TreeNode, List[int]]] = [(root, [root.val])]
 
-        while stack:
-            node, path = stack.pop(0)
+        while queue:
+            node, path = queue.pop(0)
             if not node.left and not node.right and sum(path) == targetSum:
                 out.append(path)
             if node.left:
-                stack.append((node.left,  path + [node.left.val]))
+                queue.append((node.left,  path + [node.left.val]))
             if node.right:
-                stack.append((node.right, path + [node.right.val]))
+                queue.append((node.right, path + [node.right.val]))
 
         return out
 
