@@ -55,6 +55,35 @@ class Node:
         return out
 
 
+class ListNode:
+    def __init__(self, val: int, next: Optional['ListNode'] = None):
+        self.val = val
+        self.next = next
+
+    def __str__(self):
+        return f"{self.val} " + "" if self.next is None else f"=> {self.next}"
+
+    @staticmethod
+    def list2graph(values: List[int] = None) -> Optional['ListNode']:
+        if values is None or len(values) == 0:
+            return None
+
+        root = node = ListNode(values[0])
+        for value in values[1:]:
+            node.next = ListNode(value)
+            node = node.next
+
+        return root
+
+    def graph2list(self):
+        out = [self.val]
+        node = self
+        while node := node.next:
+            out.append(node.val)
+
+        return out
+
+
 class TreeNode:
     def __init__(self, val: int = 0, left: Optional['TreeNode'] = None, right: Optional['TreeNode'] = None):
         self.val = val
@@ -147,3 +176,9 @@ class TestGraph(unittest.TestCase):
         ]:
 
             self.assertListEqual(case, TreeNode.list2graph(case).graph2list())
+
+    def test_list_node(self):
+        for case in [
+            [1, 2, 3, 4, 5]
+        ]:
+            self.assertListEqual(case, ListNode.list2graph(case).graph2list())
