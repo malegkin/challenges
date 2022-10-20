@@ -19,6 +19,7 @@ class Solution:
     def numberOfWeakCharacters(self, properties: List[List[int]]) -> int:
         # order by attack desc
         properties.sort(key=lambda x: (-x[0], x[1]))
+        print(properties)
 
         out = 0
         max_defense = 0
