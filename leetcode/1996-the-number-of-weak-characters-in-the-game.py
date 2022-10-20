@@ -17,6 +17,7 @@ from unittest import TestCase
 
 class Solution:
     def numberOfWeakCharacters(self, properties: List[List[int]]) -> int:
+        # order by attack desc
         properties.sort(key=lambda x: (-x[0], x[1]))
 
         out = 0
@@ -37,7 +38,8 @@ class TestSolution(TestCase):
             for case, expected in [
                 [[[2, 2], [3, 3]], 1],
                 [[[1, 5], [10, 4], [4, 3]], 1],
-                [[[5, 5], [6, 3], [3, 6]], 0]
+                [[[5, 5], [6, 3], [3, 6]], 0],
+                [[[9, 5], [8, 4], [7, 6], [6, 6], [6, 5], [6, 4], [1, 1]], 4]
             ]:
                 print(f"run test {solution_class.__name__} {case}")
                 self.assertEqual(expected, solution_class().numberOfWeakCharacters(case))
