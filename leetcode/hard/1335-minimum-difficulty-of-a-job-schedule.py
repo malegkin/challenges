@@ -1,4 +1,5 @@
 # https://leetcode.com/problems/minimum-difficulty-of-a-job-schedule/
+# Hard
 # You want to schedule a list of jobs in d days. Jobs are dependent (i.e To work on the ith job, you have to finish all
 # the jobs j where 0 <= j < i).#
 # You have to finish at least one task every day. The difficulty of a job schedule is the sum of difficulties of each
