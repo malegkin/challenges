@@ -18,7 +18,25 @@ from unittest import TestCase
 from typing import Tuple, List
 from functools import cache
 
+
 class Solution:
+    def stoneGameIII(self, stoneValue: List[int]) -> str:
+        dp = [0, 0, 0]
+
+        for i in range(len(stoneValue)-1, -1, -1):
+            one = sum(stoneValue[i:i+1]) - dp[(i+1)%3]
+            two = -1_000_000 if i+2 > len(stoneValue) else\
+                sum(stoneValue[i:i+2]) - dp[(i+2)%3]
+            thr = -1_000_000 if i+3 > len(stoneValue) else\
+                sum(stoneValue[i:i+3]) - dp[(i+3)%3]
+
+            dp[i%3] = max(one, two, thr)
+
+        return "Tie" if dp[0] == 0 else \
+            ("Alice" if dp[0] > 0 else "Bob")
+
+
+class Solution2:
     def stoneGameIII(self, stoneValue: List[int]) -> str:
         @cache
         def _dp(i: int = 0, is_alice_turn: bool = True) -> Tuple[int, int]:
@@ -38,19 +56,17 @@ class Solution:
             return out
 
         out = _dp()
-        print(out)
-        if out[0] == out[1]:
-            return "Tie"
-
-        return "Alice" if out[0] > out[1] else "Bob"
+        return "Tie" if out[0] == out[1] else \
+            ( "Alice" if out[0] > out[1] else "Bob")
 
 
 class TestSolution(TestCase):
     def test_solution(self):
-        for case, expected in [
-            [[1, 2, 3, -9], "Alice"],
-            [[1, 2, 3, 6], "Tie"],
-            [[1, 2, 3, 7], "Bob"]
-        ]:
-            print(f"run test {case}")
-            self.assertEqual(expected, Solution().stoneGameIII(case))
+        for sc in [Solution, Solution2]:
+            for case, expected in [
+                [[1, 2, 3, -9], "Alice"],
+                [[1, 2, 3, 6], "Tie"],
+                [[1, 2, 3, 7], "Bob"]
+            ]:
+                print(f"run test {sc.__name__} {case}")
+                self.assertEqual(expected, sc().stoneGameIII(case))
